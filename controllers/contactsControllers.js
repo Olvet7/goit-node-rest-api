@@ -1,11 +1,49 @@
-import contactsService from "../services/contactsServices.js";
+import * as contactsServices from "../services/contactsServices.js";
+import ctrlWrapper from "../middlewares/ctrlWrapper.js";
+import HttpError from "../helpers/HttpError.js";
 
-export const getAllContacts = (req, res) => {};
+const getAllContacts = async (req, res) => {
+  const data = await contactsServices.listContacts();
+  res.json(data);
+};
 
-export const getOneContact = (req, res) => {};
+const getOneContact = async (req, res) => {
+  const { id } = req.params;
+  const data = await contactsServices.getContactById(id);
+  if (!data) {
+    throw HttpError(404, "Not found");
+  }
+};
 
-export const deleteContact = (req, res) => {};
+const deleteContact = async (req, res) => {
+  const { id } = req.params;
+  const data = await contactsServices.removeContact(id);
+  if (!data) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(data);
+};
 
-export const createContact = (req, res) => {};
+const createContact = async (req, res) => {
+  const data = await contactsServices.addContact(req.body);
+  res.status(200).json(data);
+};
 
-export const updateContact = (req, res) => {};
+const updateContact = async (req, res) => {
+  const { id } = req.params;
+  const data = await contactsServices.updateContactById(id, req.body);
+  const emptyBody = Object.keys(req.body).length === 0;
+  if (emptyBody) throw HttpError(400, "Please fill contact info");
+  if (!data) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(data);
+};
+
+export default {
+  getAllContacts: ctrlWrapper(getAllContacts),
+  getOneContact: ctrlWrapper(getOneContact),
+  deleteContact: ctrlWrapper(deleteContact),
+  createContact: ctrlWrapper(createContact),
+  updateContact: ctrlWrapper(updateContact),
+};
