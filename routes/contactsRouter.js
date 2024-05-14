@@ -8,21 +8,21 @@ import validateBody from "../helpers/validateBody.js";
 import isValidId from "../middlewares/isValidId.js";
 
 const contactsRouter = express.Router();
-const jsonParcer = express.json();
 
 contactsRouter.get("/", contactsControllers.getAllContacts);
 
 contactsRouter.get("/:id", isValidId, contactsControllers.getOneContact);
 
-// contactsRouter.delete("/:id", isValidId, contactsControllers.deleteContact);
+contactsRouter.delete("/:id", isValidId, contactsControllers.deleteContact);
 
 contactsRouter.post(
   "/",
-  jsonParcer,
   validateBody(createContactSchema),
   contactsControllers.createContact
 );
 
-// contactsRouter.put("/:id", jsonParcer, isValidId, validateBody(updateContactSchema), contactsControllers.updateContact);
+contactsRouter.put("/:id", isValidId, validateBody(updateContactSchema), contactsControllers.updateContact);
+
+contactsRouter.patch("/:id/favorite", isValidId, validateBody(updateContactSchema), contactsControllers.updateStatus)
 
 export default contactsRouter;
