@@ -4,15 +4,21 @@ import HttpError from "../helpers/HttpError.js";
 
 const getAllContacts = async (req, res) => {
   const data = await contactsServices.listContacts();
-  res.json(data);
+  res.send(data);
+};
+
+const createContact = async (req, res) => {
+  const data = await contactsServices.addContact(req.body);
+  res.status(201).json(data);
 };
 
 const getOneContact = async (req, res) => {
   const { id } = req.params;
   const data = await contactsServices.getContactById(id);
-  if (!data) {
-    throw HttpError(404, "Not found");
+  if (data === null) {
+    throw HttpError(404, "Contact not found");
   }
+  res.json(data);
 };
 
 const deleteContact = async (req, res) => {
@@ -21,13 +27,17 @@ const deleteContact = async (req, res) => {
   if (!data) {
     throw HttpError(404, "Not found");
   }
-  res.json(data);
+  res.send(data);
 };
 
-const createContact = async (req, res) => {
-  const data = await contactsServices.addContact(req.body);
-  res.status(200).json(data);
-};
+const updateStatus = async (req, res) => {
+  const {id} = res.params;
+  const favoriteContact = await contactsServices.updateStatusContact(id, req.body, {new: true});
+  if (!favoriteContact) {
+    throw HttpError(404, "Not found");
+  }
+  res.status(200).json(favoriteContact) 
+}
 
 const updateContact = async (req, res) => {
   const { id } = req.params;
@@ -46,4 +56,5 @@ export default {
   deleteContact: ctrlWrapper(deleteContact),
   createContact: ctrlWrapper(createContact),
   updateContact: ctrlWrapper(updateContact),
+  updateStatus: ctrlWrapper(updateStatus),
 };
