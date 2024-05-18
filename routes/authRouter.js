@@ -1,12 +1,15 @@
 import express from "express";
 import validateBody from "../helpers/validateBody.js";
-import { registerSchema, loginSchema } from "../models/user.js";
+import { registerSchema, loginSchema } from "../schemas/userSchema.js";
+// import schemas from "../models/user.js";
 import authControllers from "../controllers/authControllers.js";
 
 const router = express.Router();
 
-router.post("/register", validateBody(registerSchema), authControllers.register)
-
+router.post("/register", validateBody(registerSchema), authControllers.register);
 router.post("/login", validateBody(loginSchema), authControllers.login)
+
+// router.post("/register", validateBody(schemas.registerSchema), authControllers.register);
+// router.post("/login", validateBody(schemas.loginSchema), authControllers.login);
 
 export default router;

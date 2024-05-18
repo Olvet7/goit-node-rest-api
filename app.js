@@ -10,26 +10,25 @@ dotenv.config();
 
 const app = express();
 
+// console.log("SECRET_JWT_KEY:", process.env.SECRET_JWT_KEY);
+
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/contacts", contactsRouter);
-app.use("/api/auth", authRouter)
+app.use("/users", authRouter);
 
-
-app.use((_, response) => {
-  response.status(404).json({message: "Route not found"})
+app.use((_, res) => {
+  res.status(404).json({ message: "Route not found" });
 });
 
 app.use((err, req, res, next) => {
-  const {status = 500, message = "Server error"} = err;
-    res.status(status).json({message});
-  }
-)
+  const { status = 500, message = "Server error" } = err;
+  res.status(status).json({ message });
+  next();
+});
 
 app.listen(8080, () => {
-  console.log("Server is running")
-})
-
-
+  console.log("Server is running");
+});
