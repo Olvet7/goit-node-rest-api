@@ -6,9 +6,9 @@ const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
   const { page = 1, limit = 20 } = req.query;
   const skip = (page - 1) * limit;
-  const data = await contactsServices.listContacts({ owner }, {skip, limit});
-  const total = await contactsServices.totalContacts({owner})
-  res.json({data, total});
+  const data = await contactsServices.listContacts({ owner }, { skip, limit });
+  const total = await contactsServices.totalContacts({ owner });
+  res.json({ data, total, page });
 };
 
 const createContact = async (req, res) => {
