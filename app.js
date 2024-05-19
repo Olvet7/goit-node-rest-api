@@ -4,9 +4,9 @@ import cors from "cors";
 import contactsRouter from "./routes/contactsRouter.js";
 import "./db/db.js";
 import authRouter from "./routes/authRouter.js";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 
 const app = express();
 
@@ -27,6 +27,8 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(8080, () => {
-  console.log("Server is running");
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
