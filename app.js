@@ -10,8 +10,6 @@ dotenv.config();
 
 const app = express();
 
-// console.log("SECRET_JWT_KEY:", process.env.SECRET_JWT_KEY);
-
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());

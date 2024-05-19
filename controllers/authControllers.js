@@ -44,6 +44,9 @@ const login = async (req, res) => {
     }
   const token = jwt.sign(payload, SECRET_JWT_KEY, { expiresIn: "23h" });
 
+    // запис токену в БД
+    await authServices.updateUser({_id: id}, {token})
+
   res.json({
     token,
     user: {
@@ -54,21 +57,30 @@ const login = async (req, res) => {
 
   try {
     const { id } = jwt.verify(token, SECRET_JWT_KEY);
-    console.log(id);
   } catch (error) {
-    console.log(error.message);
   }
 };
+
+
+const getCurrent = async (req, res) => {
+  const {email, subscription} = req.user;
+
+  res.json({
+    email,
+    subscription,
+  })
+};
+
+const logout = async (req, res) => {
+  const {_id} = req.user;
+  await authServices.updateUser({_id}, {token: ""});
+
+  res.status(204).send();
+}
 
 export default {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  getCurrent: ctrlWrapper(getCurrent),
+  logout: ctrlWrapper(logout),
 };
-
-//
-
-// {
-//     "name": "olha1234567",
-//     "email": "olha8@gmail.com",
-//     "password": "1234567"
-// }
