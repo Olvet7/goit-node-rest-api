@@ -11,6 +11,7 @@ router.post("/register", validateBody(registerSchema), authControllers.register)
 router.post("/login", validateBody(loginSchema), authControllers.login);
 router.get("/current", authenticate, authControllers.getCurrent);
 router.post("/logout", authenticate, authControllers.logout);
+router.patch("/updateSubscription", authenticate, authControllers.updateSubscription);
 
 // router.post("/register", validateBody(schemas.registerSchema), authControllers.register);
 // router.post("/login", validateBody(schemas.loginSchema), authControllers.login);
