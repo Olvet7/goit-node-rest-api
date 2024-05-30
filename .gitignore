@@ -102,8 +102,12 @@ dist
 # vuepress build output
 .vuepress/dist
 
-# vuepress v2.x temp and cache directory
-.temp
+# vuepress v2.x tmp and cache directory
+tmp/*
+!tmp/.gitkeep
+public/avatars*
+!public/avatars/.gitkeep
+
 .cache
 
 # Docusaurus cache and generated files

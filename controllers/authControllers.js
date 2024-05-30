@@ -54,10 +54,6 @@ const login = async (req, res) => {
       subscription: user.subscription,
     },
   });
-
-  try {
-    const { id } = jwt.verify(token, SECRET_JWT_KEY);
-  } catch (error) {}
 };
 
 const getCurrent = async (req, res) => {
