@@ -21,19 +21,9 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-export { registerSchema, loginSchema };
+const userEmailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+})
 
-// const schemas = {
-//     registerSchema: Joi.object({
-//         password: Joi.string().required().messages({ "any.required": "Password is required" }),
-//         email: Joi.string().required().messages({ "any.required": "Email is required" }).lowercase(),
-//         subscription: Joi.string().valid("starter", "pro", "business").default("starter"),
-//     }),
+export { registerSchema, loginSchema, userEmailSchema };
 
-//     loginSchema: Joi.object({
-//         email: Joi.string().pattern(emailRegexp).required(),
-//         password: Joi.string().min(6).required(),
-//     })
-// };
-
-// export default schemas;
